@@ -4,13 +4,13 @@ import com.congozo.service.JwtResponse;
 import com.congozo.service.LoginRequest;
 import com.congozo.service.MessageResponse;
 import com.congozo.service.SignupRequest;
-import com.congozo.service.model.User;
-import com.congozo.service.model.UserDetailsImpl;
+import com.congozo.service.model.Benutzer;
+import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.RoleRepository;
 import com.congozo.service.repository.UserRepository;
 import com.congozo.service.security.JwtUtils;
-import com.congozo.service.security.model.ERole;
-import com.congozo.service.security.model.Role;
+import com.congozo.service.model.ERole;
+import com.congozo.service.model.CongozoRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -70,54 +70,53 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
-        }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+        if (userRepository.existsByHandynummer(signUpRequest.getHandynummer())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Mobile number is already in use!"));
+        }
 
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
+        Benutzer benutzer = new Benutzer(signUpRequest.getEmail(), signUpRequest.getHandynummer(),
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
+        Set<CongozoRole> congozoRoles = new HashSet<>();
 
         if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+            CongozoRole userCongozoRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+            congozoRoles.add(userCongozoRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                        CongozoRole adminCongozoRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+                        congozoRoles.add(adminCongozoRole);
 
                         break;
                     case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                        CongozoRole modCongozoRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        congozoRoles.add(modCongozoRole);
 
                         break;
                     default:
-                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                        CongozoRole userCongozoRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
+                        congozoRoles.add(userCongozoRole);
                 }
             });
         }
-        user.setRoles(roles);
-        userRepository.save(user);
+        benutzer.setCongozoRoles(congozoRoles);
+        userRepository.save(benutzer);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

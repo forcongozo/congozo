@@ -3,18 +3,10 @@ package com.congozo.service;
 import java.util.Set;
 
 public class SignupRequest {
-    private String username;
     private String email;
+    private String handynummer;
     private String password;
     private Set<String> role;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;
@@ -22,6 +14,14 @@ public class SignupRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getHandynummer() {
+        return handynummer;
+    }
+
+    public void setHandynummer(String handynummer) {
+        this.handynummer = handynummer;
     }
 
     public String getPassword() {

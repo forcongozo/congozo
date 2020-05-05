@@ -1,4 +1,4 @@
-package com.congozo.service.security.model;
+package com.congozo.service.model;
 
 public enum ERole {
     ROLE_USER,

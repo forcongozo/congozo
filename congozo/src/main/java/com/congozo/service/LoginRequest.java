@@ -1,12 +1,12 @@
 package com.congozo.service;
 
-import com.congozo.service.security.model.Role;
+import com.congozo.service.model.CongozoRole;
 
 public class LoginRequest {
     private String username;
     private String password;
     private String email;
-    private Role role;
+    private CongozoRole congozoRole;
 
     public String getUsername() {
         return username;
@@ -32,11 +32,11 @@ public class LoginRequest {
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
+    public CongozoRole getCongozoRole() {
+        return congozoRole;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setCongozoRole(CongozoRole congozoRole) {
+        this.congozoRole = congozoRole;
     }
 }

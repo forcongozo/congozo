@@ -1,7 +1,7 @@
 package com.congozo.service.service;
 
-import com.congozo.service.model.User;
-import com.congozo.service.model.UserDetailsImpl;
+import com.congozo.service.model.Benutzer;
+import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +17,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Benutzer benutzer = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with Email address: " + email));
 
-        return UserDetailsImpl.build(user);
+        return UserDetailsImpl.build(benutzer);
     }
 }
