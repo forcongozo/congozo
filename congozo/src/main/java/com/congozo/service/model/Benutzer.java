@@ -57,7 +57,11 @@ public class Benutzer extends BaseEntity {
     public Benutzer(){
 
     }
-    public Benutzer(String email, String handynummer, String password) {
+    public Benutzer(String vorname, String nachname, Date geburtsdatum, String email, String handynummer,String heimatOrt, String password) {
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.geburtsdatum = geburtsdatum;
+        this.heimatOrt = heimatOrt;
         this.email = email;
         this.handynummer = handynummer;
         this.password = password;

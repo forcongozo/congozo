@@ -19,8 +19,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.DateUtils;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +65,9 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
-                userDetails.getUsername(),
+                userDetails.getEmail(),
+                //TODO: Username fixen username != email
+                //userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
     }
@@ -71,19 +75,30 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
-        }
-        if (userRepository.existsByHandynummer(signUpRequest.getHandynummer())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Mobile number is already in use!"));
+        switch (signUpRequest.getSingnupType()){
+            case EMAIL:
+                if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                    return ResponseEntity
+                            .badRequest()
+                            .body(new MessageResponse("Error: Email is already in use!"));
+                }
+                break;
+            case NUMBER:
+                if (userRepository.existsByHandynummer(signUpRequest.getHandynummer())) {
+                    return ResponseEntity
+                            .badRequest()
+                            .body(new MessageResponse("Error: Mobile number is already in use!"));
+                }
         }
 
         // Create new user's account
-        Benutzer benutzer = new Benutzer(signUpRequest.getEmail(), signUpRequest.getHandynummer(),
+        Benutzer benutzer = new Benutzer(
+                signUpRequest.getVorname(),
+                signUpRequest.getNachname(),
+                new Date(), //TODO: convert To Date
+                signUpRequest.getEmail(),
+                signUpRequest.getHandynummer(),
+                signUpRequest.getHeimatOrt(),
                 encoder.encode(signUpRequest.getPassword()));
 
         Set<String> strRoles = signUpRequest.getRole();
