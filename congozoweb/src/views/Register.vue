@@ -114,7 +114,8 @@
             <div v-if="message"
                     class="alert"
                     :class="successful ? 'alert-success' : 'alert-danger'"
-            >{{message}}</div>
+            >{{message}}
+            </div>
         </div>
     </div>
 </template>
@@ -126,7 +127,7 @@
         name: 'Register',
         data() {
             return {
-                user: new User('', '', '', '', '', '', ''),
+                user: new User('', '', '', '', '', '', '', ''),
                 submitted: false,
                 successful: false,
                 message: ''

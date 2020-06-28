@@ -28,7 +28,7 @@ export const router = new Router({
         },
         {
             path: '/profile',
-            name: 'profile',
+            name: 'Profile',
             // lazy-loaded
             component: () => import('./views/Profile.vue')
         },
