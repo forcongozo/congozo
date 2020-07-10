@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.DateUtils;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -73,7 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) throws ParseException {
 
         switch (signUpRequest.getSingnupType()){
             case EMAIL:
@@ -90,12 +92,13 @@ public class AuthController {
                             .body(new MessageResponse("Error: Mobile number is already in use!"));
                 }
         }
-
+        Date geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
         // Create new user's account
         Benutzer benutzer = new Benutzer(
                 signUpRequest.getVorname(),
                 signUpRequest.getNachname(),
-                new Date(), //TODO: convert To Date
+                getUsernameOrEmail(signUpRequest.getEmail(), signUpRequest.getVorname()),
+                geburtsdatum,
                 signUpRequest.getEmail(),
                 signUpRequest.getHandynummer(),
                 signUpRequest.getHeimatOrt(),
@@ -134,5 +137,13 @@ public class AuthController {
         userRepository.save(benutzer);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    private String getUsernameOrEmail(String email, String username){
+        if(username != null){
+            return username;
+        } else {
+            return email;
+        }
     }
 }

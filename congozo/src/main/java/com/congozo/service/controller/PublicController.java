@@ -1,9 +1,15 @@
 package com.congozo.service.controller;
 
+import com.congozo.service.model.Benutzer;
 import com.congozo.service.model.Email;
 import com.congozo.service.service.SendeEmail;
+import com.congozo.service.service.UserDetailsServiceImpl;
+import com.congozo.service.view.Profile;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +23,14 @@ public class PublicController {
     @Autowired
     private SendeEmail sendeEmail;
 
+
+    @Autowired
+    @Qualifier("Congozouser")
+    private UserDetails userDetails;
+
+    @Autowired
+    private Profile profile;
+
     @GetMapping("/all")
     public String allAccess() {
         Email email = new Email();
@@ -28,10 +42,11 @@ public class PublicController {
         return "Public Content.";
     }
 
+
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
+    public Benutzer userAccess() {
+        return profile.getBenutzer();
     }
 
     @GetMapping("/mod")

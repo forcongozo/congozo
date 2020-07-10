@@ -1,5 +1,7 @@
 package com.congozo.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +19,9 @@ public class Benutzer extends BaseEntity {
 
     @Size(max = 20)
     private String nachname;
+
+    @Size(max = 50)
+    private String username;
 
     private Integer alt;
 
@@ -52,14 +57,16 @@ public class Benutzer extends BaseEntity {
     private Set<CongozoRole> congozoRoles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benutzer")
+    @JsonIgnore
     private List<KontoAktivierungsCode> aktivierungsCodeList;
 
     public Benutzer(){
 
     }
-    public Benutzer(String vorname, String nachname, Date geburtsdatum, String email, String handynummer,String heimatOrt, String password) {
+    public Benutzer(String vorname, String nachname, String username, Date geburtsdatum, String email, String handynummer,String heimatOrt, String password) {
         this.vorname = vorname;
         this.nachname = nachname;
+        this.username = username;
         this.geburtsdatum = geburtsdatum;
         this.heimatOrt = heimatOrt;
         this.email = email;
@@ -81,6 +88,14 @@ public class Benutzer extends BaseEntity {
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getAlt() {
