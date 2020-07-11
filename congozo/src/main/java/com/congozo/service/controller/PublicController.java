@@ -36,7 +36,7 @@ public class PublicController {
         return profile.getBenutzer();
     }
 
-    @PostMapping("/erlebnisPosten")
+    @PostMapping("/erlebnissPosten")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Erlebnis registerErlebnis(@Valid @RequestBody ErlebnisRequest erlebnisRequest){
         Erlebnis erlebnis = new Erlebnis();
