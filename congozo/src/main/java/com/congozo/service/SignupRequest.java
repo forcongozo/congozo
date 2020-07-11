@@ -9,11 +9,14 @@ public class SignupRequest {
     private String nachname;
     private String geschlecht;
     private String geburtsDatum;
-    private String heimatOrt;
     private String email;
     private String handynummer;
     private String password;
     private Set<String> role;
+    private String info;
+    private String stadt;
+    private String land;
+    private String hashtag;
 
     public String getVorname() {
         return vorname;
@@ -47,14 +50,6 @@ public class SignupRequest {
         this.geburtsDatum = geburtsDatum;
     }
 
-    public String getHeimatOrt() {
-        return heimatOrt;
-    }
-
-    public void setHeimatOrt(String heimatOrt) {
-        this.heimatOrt = heimatOrt;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -85,6 +80,38 @@ public class SignupRequest {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
+    }
+
+    public String getLand() {
+        return land;
+    }
+
+    public void setLand(String land) {
+        this.land = land;
+    }
+
+    public String getHashtag() {
+        return hashtag;
+    }
+
+    public void setHashtag(String hashtag) {
+        this.hashtag = hashtag;
     }
 
     public SingnupType getSingnupType(){

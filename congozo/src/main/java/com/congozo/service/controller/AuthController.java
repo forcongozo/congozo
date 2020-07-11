@@ -5,12 +5,14 @@ import com.congozo.service.LoginRequest;
 import com.congozo.service.MessageResponse;
 import com.congozo.service.SignupRequest;
 import com.congozo.service.model.Benutzer;
+import com.congozo.service.model.Email;
 import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.RoleRepository;
 import com.congozo.service.repository.UserRepository;
 import com.congozo.service.security.JwtUtils;
 import com.congozo.service.model.ERole;
 import com.congozo.service.model.CongozoRole;
+import com.congozo.service.service.SendeEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,6 +52,9 @@ public class AuthController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @Autowired
+    private SendeEmail sendeEmail;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -94,15 +99,25 @@ public class AuthController {
         }
         Date geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
         // Create new user's account
+        /**
+         * String vorname, String nachname, String geschlecht, String username,
+         *                     Date geburtsdatum, String email, String handynummer,String password,
+         *                     String info, String stadt, String land, String hashtag
+         */
         Benutzer benutzer = new Benutzer(
                 signUpRequest.getVorname(),
                 signUpRequest.getNachname(),
+                signUpRequest.getGeschlecht(),
                 getUsernameOrEmail(signUpRequest.getEmail(), signUpRequest.getVorname()),
                 geburtsdatum,
                 signUpRequest.getEmail(),
                 signUpRequest.getHandynummer(),
-                signUpRequest.getHeimatOrt(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getInfo(),
+                signUpRequest.getStadt(),
+                signUpRequest.getLand(),
+                signUpRequest.getHashtag()
+                );
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<CongozoRole> congozoRoles = new HashSet<>();
@@ -135,7 +150,12 @@ public class AuthController {
         }
         benutzer.setCongozoRoles(congozoRoles);
         userRepository.save(benutzer);
-
+        //TODO: Async implementieren
+//        Email email = new Email();
+//        email.setTo(benutzer.getEmail());
+//        email.setSubject("Bitte bestätigen");
+//        email.setMessageText("This is a sample text message.");
+//        sendeEmail.sendMail(email);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

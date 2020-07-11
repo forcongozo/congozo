@@ -1,28 +1,22 @@
-package com.congozo.service.model;
+package com.congozo.service;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.Time;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
-@Entity
-@Table(name = "ERLEBNIS")
-public class Erlebnis extends BaseEntity {
-
+public class ErlebnisRequest {
     private String erlebnisname;
 
     private Time dauer;
 
     private Date datum;
 
-    private Time uhrZeit;
+    private Time startzeit;
 
-    private BigDecimal ausgaben;
+    private BigDecimal anfalendeKosten;
 
-    private Integer maximaleTeilnehmerzahl;
+    private Integer maximaleTeilnehmer;
 
     private String geeignetFuer;
 
@@ -34,14 +28,7 @@ public class Erlebnis extends BaseEntity {
 
     private String hashtag;
 
-    private String erlebnissOrt;
-
-    @OneToOne
-    @JoinColumn(name = "benutzer_id")
-    private Benutzer benutzer;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "erlebnis")
-    private List<ErlebnisFoto> erlebnisFotos;
+    private String erlebnisOrt;
 
     public String getErlebnisname() {
         return erlebnisname;
@@ -67,28 +54,28 @@ public class Erlebnis extends BaseEntity {
         this.datum = datum;
     }
 
-    public Time getUhrZeit() {
-        return uhrZeit;
+    public Time getStartzeit() {
+        return startzeit;
     }
 
-    public void setUhrZeit(Time uhrZeit) {
-        this.uhrZeit = uhrZeit;
+    public void setStartzeit(Time startzeit) {
+        this.startzeit = startzeit;
     }
 
-    public BigDecimal getAusgaben() {
-        return ausgaben;
+    public BigDecimal getAnfalendeKosten() {
+        return anfalendeKosten;
     }
 
-    public void setAusgaben(BigDecimal ausgaben) {
-        this.ausgaben = ausgaben;
+    public void setAnfalendeKosten(BigDecimal anfalendeKosten) {
+        this.anfalendeKosten = anfalendeKosten;
     }
 
-    public Integer getMaximaleTeilnehmerzahl() {
-        return maximaleTeilnehmerzahl;
+    public Integer getMaximaleTeilnehmer() {
+        return maximaleTeilnehmer;
     }
 
-    public void setMaximaleTeilnehmerzahl(Integer maximaleTeilnehmerzahl) {
-        this.maximaleTeilnehmerzahl = maximaleTeilnehmerzahl;
+    public void setMaximaleTeilnehmer(Integer maximaleTeilnehmer) {
+        this.maximaleTeilnehmer = maximaleTeilnehmer;
     }
 
     public String getGeeignetFuer() {
@@ -131,28 +118,11 @@ public class Erlebnis extends BaseEntity {
         this.hashtag = hashtag;
     }
 
-    public String getErlebnissOrt() {
-        return erlebnissOrt;
+    public String getErlebnisOrt() {
+        return erlebnisOrt;
     }
 
-    public void setErlebnissOrt(String erlebnissOrt) {
-        this.erlebnissOrt = erlebnissOrt;
+    public void setErlebnisOrt(String erlebnisOrt) {
+        this.erlebnisOrt = erlebnisOrt;
     }
-
-    public Benutzer getBenutzer() {
-        return benutzer;
-    }
-
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
-    }
-
-    public List<ErlebnisFoto> getErlebnisFotos() {
-        return erlebnisFotos;
-    }
-
-    public void setErlebnisFotos(List<ErlebnisFoto> erlebnisFotos) {
-        this.erlebnisFotos = erlebnisFotos;
-    }
-
 }
