@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class=" bg-main">
     <nav class="main-nav congozo-navbar">
       <div class="logo">
         CONGOZO LOGO
@@ -30,9 +30,7 @@
         </ul>
       </div>
     </Sidebar>
-    <div class="container">
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
@@ -58,9 +56,10 @@
   }
 </script>
 <style>
+  @import './style/congozo.css';
+
   html {
     height: 100%;
-    overflow:hidden;
   }
 
   body {
