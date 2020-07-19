@@ -1,15 +1,15 @@
-.container {
+.congozo-container {
   max-width: 1400px;
   padding: 0 2rem;
   margin: auto;
   overflow: hidden; }
 
-.container-full-width {
+.congozo-container-full-width {
   max-width: 1400px;
   margin: auto;
   overflow: hidden; }
 
-.btn-main, .btn-main:hover {
+.congozo-btn-main, .congozo-btn-main:hover {
   display: inline-block;
   padding: 0.8rem 2rem;
   transition: all 1s;
@@ -19,15 +19,15 @@
   font-weight: 700;
   border-radius: 10px; }
 
-.error {
+.congozo-error {
   color: red; }
 
-.btn-main {
+.congozo-btn-main {
   color: #F4F2F0;
   background: #F0A002;
 }
 
-.btn-main:hover {
+.congozo-btn-main:hover {
   color: #F4F2F0;
   background: #BD3A4F;
 }
@@ -40,58 +40,60 @@
 .bg-main {
   width: 100%;
   height: 100%;
+}
+.congozo-bg-main {
   background: #F4F2F0;
   color: #35353A; }
 
-.bg-dark {
+.congozo-bg-dark {
   background: #35353A;
   color: #F4F2F0; }
 
-.bg-special {
+.congozo-bg-special {
   background: #F0A002;
   color: #F4F2F0; }
 
-.lead {
+.congozo-lead {
   font-size: 1.3rem;
   margin-bottom: 2rem; }
 
-.text-center {
+.congozo-text-center {
   text-align: center; }
 
-.py-1 {
+.congozo-py-1 {
   padding: 1rem 0; }
 
-.py-2 {
+.congozo-py-2 {
   padding: 2rem 0; }
 
-.py-3 {
+.congozo-py-3 {
   padding: 3rem 0; }
 
-.py-4 {
+.congozo-py-4 {
   padding: 4rem 0; }
 
-.my-1 {
+.congozo-my-1 {
   margin: 1rem 0; }
 
-.my-2 {
+.congozo-my-2 {
   margin: 2rem 0; }
 
-.my-3 {
+.congozo-my-3 {
   margin: 3rem 0; }
 
-.my-4 {
+.congozo-my-4 {
   margin: 4rem 0; }
 
-.mx-1 {
+.congozo-mx-1 {
   margin: 0 1rem; }
 
-.section-title {
+.congozo-section-title {
   font-size: 2rem;
   display: block;
   padding-bottom: 0.5rem;
   text-transform: uppercase; }
 
-.bottom-line {
+.congozo-bottom-line {
   height: 2px;
   width: 3rem;
   background: #F0A002;
@@ -154,25 +156,29 @@ img {
   display: flex;
   justify-content: space-between;
   padding-top: 1rem;
-  background-color: rgba(240, 160, 2, 0.8); }
-  #main-nav ul {
+  background-color: rgba(240, 160, 2, 0.8) !important;
+}
+#main-nav ul {
     display: flex; }
-  #main-nav li {
+#main-nav li {
     padding: 1rem 1.5rem; }
-  #main-nav a {
+#main-nav a {
     text-decoration: none;
     color: #F4F2F0;
     text-transform: uppercase;
     border-bottom: 3px transparent solid;
     padding-bottom: 0.5rem;
-    transition: border-color 0.5s; }
-    #main-nav a:hover {
-      border-color: #35353A; }
-    #main-nav a.current {
-      border-color: #F4F2F0; }
+    transition: border-color 0.5s;
+}
+#main-nav a:hover {
+      border-color: #35353A;
+}
+#main-nav a.current {
+      border-color: #F4F2F0;
+}
 
 #header-home {
-  background: url("") no-repeat center right/cover;
+  background: url("../assets/bgfoto/sunset.jpg") no-repeat center right/cover;
   height: 100vh;
   color: #F4F2F0; }
   #header-home .header-content {
@@ -221,10 +227,12 @@ img {
 
 @media (max-width: 500px) {
   #main-nav {
-    flex-direction: column;
-    align-items: center; }
-    #main-nav li {
-      padding: 1rem; }
+  flex-direction: column;
+    align-items: center;
+  }
+  #main-nav li {
+      padding: 1rem;
+  }
     #main-nav #logo {
       width: 180px;
       padding-top: 0.5rem;

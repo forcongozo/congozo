@@ -1,10 +1,19 @@
 <template>
-  <div id="app" class=" bg-main">
-    <nav class="main-nav congozo-navbar">
-      <div class="logo">
-        CONGOZO LOGO
-      </div>
-      <Burger></Burger>
+  <div id="app">
+    <nav id="main-nav" class="navbar navbar-expand-lg navbar-light bg-light">
+      <ul>
+        <li>
+          <burger></burger>
+        </li>
+        <li>
+          <div class="logo">
+            ConGozo
+          </div>
+        </li>
+        <li class="login">
+          <router-link to="/login">Anmelden/ Registrieren</router-link>
+        </li>
+      </ul>
     </nav>
 
     <Sidebar>
@@ -30,7 +39,9 @@
         </ul>
       </div>
     </Sidebar>
-    <router-view />
+    <div class="congozo-container-full-width">
+      <router-view />
+    </div>
   </div>
 </template>
 

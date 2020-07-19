@@ -1,8 +1,6 @@
 <template>
-    <div class="container">
-        <header class="jumbotron">
-            <h3>{{content}}</h3>
-        </header>
+    <div id="header-home" class="container">
+        <h3>{{content}}</h3>
     </div>
 </template>
 

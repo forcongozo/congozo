@@ -146,7 +146,6 @@
                 <div class="privacy-policy">
                     <p>By continuing, you accept our <b>Terms & Conditions</b> and <b>Privacy Policy.</b></p>
                 </div>
-
                 <div v-if="message"
                      class="alert"
                      :class="successful ? 'alert-success' : 'alert-danger'"

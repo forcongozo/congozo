@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:9090/api/auth/';
+//const API_URL = 'http://Congozo-env-1.eba-4psdgx3b.us-east-2.elasticbeanstalk.com/api/auth/';
 
 class AuthService {
     login(user) {
         return axios
             .post(API_URL + 'signin', {
-                username: user.username,
+                usernameOrEmail: user.usernameOrEmail,
                 password: user.password
             })
             .then(response => {
@@ -21,10 +22,13 @@ class AuthService {
     logout() {
         localStorage.removeItem('user');
     }
-
     register(user) {
         return axios.post(API_URL + 'signup', {
-            username: user.username,
+            vorname: user.username,
+            nachname: user.nachname,
+            geschlecht: user.geschlecht,
+            geburtsdatum: user.geburtsdatum,
+            heimatort: user.heimatort,
             email: user.email,
             password: user.password
         });

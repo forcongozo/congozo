@@ -5,12 +5,14 @@ import com.congozo.service.LoginRequest;
 import com.congozo.service.MessageResponse;
 import com.congozo.service.SignupRequest;
 import com.congozo.service.model.Benutzer;
+import com.congozo.service.model.Email;
 import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.RoleRepository;
 import com.congozo.service.repository.UserRepository;
 import com.congozo.service.security.JwtUtils;
 import com.congozo.service.model.ERole;
 import com.congozo.service.model.CongozoRole;
+import com.congozo.service.service.SendeEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.DateUtils;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -49,11 +53,14 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    private SendeEmail sendeEmail;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -73,7 +80,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) throws ParseException {
 
         switch (signUpRequest.getSingnupType()){
             case EMAIL:
@@ -90,16 +97,27 @@ public class AuthController {
                             .body(new MessageResponse("Error: Mobile number is already in use!"));
                 }
         }
-
+        Date geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
         // Create new user's account
+        /**
+         * String vorname, String nachname, String geschlecht, String username,
+         *                     Date geburtsdatum, String email, String handynummer,String password,
+         *                     String info, String stadt, String land, String hashtag
+         */
         Benutzer benutzer = new Benutzer(
                 signUpRequest.getVorname(),
                 signUpRequest.getNachname(),
-                new Date(), //TODO: convert To Date
+                signUpRequest.getGeschlecht(),
+                getUsernameOrEmail(signUpRequest.getEmail(), signUpRequest.getVorname()),
+                geburtsdatum,
                 signUpRequest.getEmail(),
                 signUpRequest.getHandynummer(),
-                signUpRequest.getHeimatOrt(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getInfo(),
+                signUpRequest.getStadt(),
+                signUpRequest.getLand(),
+                signUpRequest.getHashtag()
+                );
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<CongozoRole> congozoRoles = new HashSet<>();
@@ -132,7 +150,20 @@ public class AuthController {
         }
         benutzer.setCongozoRoles(congozoRoles);
         userRepository.save(benutzer);
-
+        //TODO: Async implementieren
+//        Email email = new Email();
+//        email.setTo(benutzer.getEmail());
+//        email.setSubject("Bitte bestätigen");
+//        email.setMessageText("This is a sample text message.");
+//        sendeEmail.sendMail(email);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    private String getUsernameOrEmail(String email, String username){
+        if(username != null){
+            return username;
+        } else {
+            return email;
+        }
     }
 }

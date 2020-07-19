@@ -1,5 +1,7 @@
 package com.congozo.service.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,11 +14,16 @@ import java.util.*;
 })
 public class Benutzer extends BaseEntity {
 
-    @Size(max = 20)
+    @Size(max =50)
     private String vorname;
 
-    @Size(max = 20)
+    @Size(max = 50)
     private String nachname;
+
+    private String geschlecht;
+
+    @Size(max = 50)
+    private String username;
 
     private Integer alt;
 
@@ -24,13 +31,15 @@ public class Benutzer extends BaseEntity {
 
     private String sprachen;
 
-    private String heimatOrt;
+    private String stadt;
+    private String land;
+    private String hashtag;
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
 
-    @Size(max = 13)
+    @Size(max = 20)
     private String handynummer;
 
     @NotBlank
@@ -40,8 +49,8 @@ public class Benutzer extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "BENUTZER_FOTO_ID")
     private Benutzerfoto benutzerfoto;
-    private String hashtag;
     private String fachgebiet;
+    @Size(max = 2000)
     private String info;
     private boolean aktive;
 
@@ -52,19 +61,27 @@ public class Benutzer extends BaseEntity {
     private Set<CongozoRole> congozoRoles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benutzer")
+    @JsonIgnore
     private List<KontoAktivierungsCode> aktivierungsCodeList;
 
     public Benutzer(){
 
     }
-    public Benutzer(String vorname, String nachname, Date geburtsdatum, String email, String handynummer,String heimatOrt, String password) {
+    public Benutzer(String vorname, String nachname, String geschlecht, String username,
+                    Date geburtsdatum, String email, String handynummer,String password,
+                    String info, String stadt, String land, String hashtag) {
         this.vorname = vorname;
         this.nachname = nachname;
+        this.geschlecht = geschlecht;
+        this.username = username;
         this.geburtsdatum = geburtsdatum;
-        this.heimatOrt = heimatOrt;
         this.email = email;
         this.handynummer = handynummer;
         this.password = password;
+        this.info = info;
+        this.stadt = stadt;
+        this.land = land;
+        this.hashtag = hashtag;
     }
 
     public String getVorname() {
@@ -81,6 +98,14 @@ public class Benutzer extends BaseEntity {
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getAlt() {
@@ -105,14 +130,6 @@ public class Benutzer extends BaseEntity {
 
     public void setSprachen(String sprachen) {
         this.sprachen = sprachen;
-    }
-
-    public String getHeimatOrt() {
-        return heimatOrt;
-    }
-
-    public void setHeimatOrt(String heimatOrt) {
-        this.heimatOrt = heimatOrt;
     }
 
     public String getEmail() {
@@ -195,6 +212,30 @@ public class Benutzer extends BaseEntity {
         this.aktivierungsCodeList = aktivierungsCodeList;
     }
 
+    public String getGeschlecht() {
+        return geschlecht;
+    }
+
+    public void setGeschlecht(String geschlecht) {
+        this.geschlecht = geschlecht;
+    }
+
+    public String getStadt() {
+        return stadt;
+    }
+
+    public void setStadt(String stadt) {
+        this.stadt = stadt;
+    }
+
+    public String getLand() {
+        return land;
+    }
+
+    public void setLand(String land) {
+        this.land = land;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -204,10 +245,13 @@ public class Benutzer extends BaseEntity {
         return aktive == benutzer.aktive &&
                 Objects.equals(vorname, benutzer.vorname) &&
                 Objects.equals(nachname, benutzer.nachname) &&
+                Objects.equals(geschlecht, benutzer.geschlecht) &&
+                Objects.equals(username, benutzer.username) &&
                 Objects.equals(alt, benutzer.alt) &&
                 Objects.equals(geburtsdatum, benutzer.geburtsdatum) &&
                 Objects.equals(sprachen, benutzer.sprachen) &&
-                Objects.equals(heimatOrt, benutzer.heimatOrt) &&
+                Objects.equals(stadt, benutzer.stadt) &&
+                Objects.equals(land, benutzer.land) &&
                 Objects.equals(email, benutzer.email) &&
                 Objects.equals(handynummer, benutzer.handynummer) &&
                 Objects.equals(password, benutzer.password) &&
@@ -221,6 +265,6 @@ public class Benutzer extends BaseEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), vorname, nachname, alt, geburtsdatum, sprachen, heimatOrt, email, handynummer, password, benutzerfoto, hashtag, fachgebiet, info, aktive, congozoRoles, aktivierungsCodeList);
+        return Objects.hash(super.hashCode(), vorname, nachname, geschlecht, username, alt, geburtsdatum, sprachen, stadt, land, email, handynummer, password, benutzerfoto, hashtag, fachgebiet, info, aktive, congozoRoles, aktivierungsCodeList);
     }
 }

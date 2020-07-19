@@ -2,6 +2,8 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:9090/api/public/';
+//const API_URL = 'http://Congozo-env-1.eba-4psdgx3b.us-east-2.elasticbeanstalk.com/api/public/';
+
 
 class UserService {
     getPublicContent() {
