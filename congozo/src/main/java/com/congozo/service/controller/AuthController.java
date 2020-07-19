@@ -97,7 +97,10 @@ public class AuthController {
                             .body(new MessageResponse("Error: Mobile number is already in use!"));
                 }
         }
-        Date geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
+        Date geburtsdatum = null;
+        if(signUpRequest.getGeburtsDatum() != null ){
+            geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
+        }
         // Create new user's account
         /**
          * String vorname, String nachname, String geschlecht, String username,
