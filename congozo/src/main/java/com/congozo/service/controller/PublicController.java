@@ -1,19 +1,12 @@
 package com.congozo.service.controller;
 
-import com.congozo.service.ErlebnisRequest;
-import com.congozo.service.SignupRequest;
-import com.congozo.service.model.Benutzer;
-import com.congozo.service.model.Email;
-import com.congozo.service.model.Erlebnis;
-import com.congozo.service.repository.ErlebnisRepository;
-import com.congozo.service.service.SendeEmail;
-import com.congozo.service.service.UserDetailsServiceImpl;
+import com.congozo.service.AdventureRequest;
+import com.congozo.service.model.CongozoUser;
+import com.congozo.service.model.Adventure;
+import com.congozo.service.repository.AdventureRepository;
 import com.congozo.service.view.Profile;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +17,7 @@ import javax.validation.Valid;
 public class PublicController {
 
     @Autowired
-    private ErlebnisRepository erlebnisRepository;
+    private AdventureRepository adventureRepository;
 
 
     @Autowired
@@ -32,29 +25,29 @@ public class PublicController {
 
     @PostMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Benutzer userAccess() {
-        return profile.getBenutzer();
+    public CongozoUser userAccess() {
+        return profile.getCongozoUser();
     }
 
-    @PostMapping("/erlebnissPosten")
+    @PostMapping("/newAdventure")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public Erlebnis registerErlebnis(@Valid @RequestBody ErlebnisRequest erlebnisRequest){
-        Erlebnis erlebnis = new Erlebnis();
-        erlebnis.setBenutzer(profile.getBenutzer());
-        erlebnis.setErlebnisname(erlebnisRequest.getErlebnisname());
-        erlebnis.setDauer(erlebnisRequest.getDauer());
-        erlebnis.setDatum(erlebnisRequest.getDatum());
-        erlebnis.setUhrZeit(erlebnisRequest.getStartzeit());
-        erlebnis.setAusgaben(erlebnisRequest.getAnfalendeKosten());
-        erlebnis.setMaximaleTeilnehmerzahl(erlebnisRequest.getMaximaleTeilnehmer());
-        erlebnis.setGeeignetFuer(erlebnisRequest.getGeeignetFuer());
-        erlebnis.setFoto(erlebnisRequest.getFoto());
-        erlebnis.setBeschreibung(erlebnisRequest.getBeschreibung());
-        erlebnis.setTeilnahmevoraussetzung(erlebnisRequest.getTeilnahmevoraussetzung());
-        erlebnis.setHashtag(erlebnisRequest.getHashtag());
-        erlebnis.setErlebnissOrt(erlebnisRequest.getErlebnisOrt());
+    public Adventure registerErlebnis(@Valid @RequestBody AdventureRequest adventureRequest){
+        Adventure adventure = new Adventure();
+        adventure.setCongozoUser(profile.getCongozoUser());
+        adventure.setAdventureName(adventureRequest.getAdventureName());
+        adventure.setDuration(adventureRequest.getDuration());
+        adventure.setDate(adventureRequest.getDate());
+        adventure.setStartTime(adventureRequest.getStartTime());
+        adventure.setCost(adventureRequest.getCost());
+        adventure.setMaxParticipant(adventureRequest.getMaxParticipant());
+        adventure.setEligibleFor(adventureRequest.getEligibleFor());
+        adventure.setPicture(adventureRequest.getPiciture());
+        adventure.setDescription(adventureRequest.getDescription());
+        adventure.setPrerequisitesForAttending(adventureRequest.getPrerequisitesForAttending());
+        adventure.setHashtag(adventureRequest.getHashtag());
+        adventure.setAdventurePlace(adventureRequest.getAdventurePlace());
 
-        return erlebnisRepository.save(erlebnis);
+        return adventureRepository.save(adventure);
 
     }
 

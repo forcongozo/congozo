@@ -1,6 +1,6 @@
 package com.congozo.service.model;
 
-public enum Geschlecht {
+public enum Gender {
     M,
     F
 }

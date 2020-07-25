@@ -5,49 +5,49 @@ import com.congozo.service.model.SingnupType;
 import java.util.Set;
 
 public class SignupRequest {
-    private String vorname;
-    private String nachname;
-    private String geschlecht;
-    private String geburtsDatum;
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private String dateOfBirth;
     private String email;
-    private String handynummer;
+    private String mobileNumber;
     private String password;
     private Set<String> role;
     private String info;
-    private String stadt;
-    private String land;
+    private String city;
+    private String country;
     private String hashtag;
 
-    public String getVorname() {
-        return vorname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getNachname() {
-        return nachname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getGeschlecht() {
-        return geschlecht;
+    public String getGender() {
+        return gender;
     }
 
-    public void setGeschlecht(String geschlecht) {
-        this.geschlecht = geschlecht;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getGeburtsDatum() {
-        return geburtsDatum;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void setGeburtsDatum(String geburtsDatum) {
-        this.geburtsDatum = geburtsDatum;
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getEmail() {
@@ -58,12 +58,12 @@ public class SignupRequest {
         this.email = email;
     }
 
-    public String getHandynummer() {
-        return handynummer;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setHandynummer(String handynummer) {
-        this.handynummer = handynummer;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getPassword() {
@@ -90,20 +90,20 @@ public class SignupRequest {
         this.info = info;
     }
 
-    public String getStadt() {
-        return stadt;
+    public String getCity() {
+        return city;
     }
 
-    public void setStadt(String stadt) {
-        this.stadt = stadt;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getLand() {
-        return land;
+    public String getCountry() {
+        return country;
     }
 
-    public void setLand(String land) {
-        this.land = land;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getHashtag() {
@@ -118,7 +118,7 @@ public class SignupRequest {
         if(!this.email.isEmpty()){
             return SingnupType.EMAIL;
         }
-        if(! this.handynummer.isEmpty()){
+        if(! this.mobileNumber.isEmpty()){
             return SingnupType.NUMBER;
         }
         return null;

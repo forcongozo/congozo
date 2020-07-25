@@ -1,6 +1,6 @@
 package com.congozo.service.service;
 
-import com.congozo.service.model.Benutzer;
+import com.congozo.service.model.CongozoUser;
 import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.UserRepository;
 import com.congozo.service.view.Profile;
@@ -24,9 +24,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Benutzer benutzer = userRepository.findByEmail(email)
+        CongozoUser CongozoUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with Email address: " + email));
-        profile.setBenutzer(benutzer);
-        return UserDetailsImpl.build(benutzer);
+        profile.setCongozoUser(CongozoUser);
+        return UserDetailsImpl.build(CongozoUser);
     }
 }

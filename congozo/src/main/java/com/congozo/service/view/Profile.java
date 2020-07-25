@@ -1,17 +1,17 @@
 package com.congozo.service.view;
 
-import com.congozo.service.model.Benutzer;
+import com.congozo.service.model.CongozoUser;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Profile {
-    private Benutzer benutzer;
+    private CongozoUser CongozoUser;
 
-    public Benutzer getBenutzer() {
-        return benutzer;
+    public CongozoUser getCongozoUser() {
+        return CongozoUser;
     }
 
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
+    public void setCongozoUser(CongozoUser congozoUser) {
+        this.CongozoUser = congozoUser;
     }
 }

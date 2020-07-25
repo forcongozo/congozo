@@ -4,8 +4,7 @@ import com.congozo.service.JwtResponse;
 import com.congozo.service.LoginRequest;
 import com.congozo.service.MessageResponse;
 import com.congozo.service.SignupRequest;
-import com.congozo.service.model.Benutzer;
-import com.congozo.service.model.Email;
+import com.congozo.service.model.CongozoUser;
 import com.congozo.service.security.UserDetailsImpl;
 import com.congozo.service.repository.RoleRepository;
 import com.congozo.service.repository.UserRepository;
@@ -21,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.DateUtils;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -91,15 +89,15 @@ public class AuthController {
                 }
                 break;
             case NUMBER:
-                if (userRepository.existsByHandynummer(signUpRequest.getHandynummer())) {
+                if (userRepository.existsByMobileNumber(signUpRequest.getMobileNumber())) {
                     return ResponseEntity
                             .badRequest()
                             .body(new MessageResponse("Error: Mobile number is already in use!"));
                 }
         }
         Date geburtsdatum = null;
-        if(signUpRequest.getGeburtsDatum() != null ){
-            geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getGeburtsDatum());
+        if(signUpRequest.getDateOfBirth() != null ){
+            geburtsdatum = new SimpleDateFormat("dd.mm.yyyy").parse(signUpRequest.getDateOfBirth());
         }
         // Create new user's account
         /**
@@ -107,18 +105,18 @@ public class AuthController {
          *                     Date geburtsdatum, String email, String handynummer,String password,
          *                     String info, String stadt, String land, String hashtag
          */
-        Benutzer benutzer = new Benutzer(
-                signUpRequest.getVorname(),
-                signUpRequest.getNachname(),
-                signUpRequest.getGeschlecht(),
-                getUsernameOrEmail(signUpRequest.getEmail(), signUpRequest.getVorname()),
+        CongozoUser CongozoUser = new CongozoUser(
+                signUpRequest.getFirstName(),
+                signUpRequest.getLastName(),
+                signUpRequest.getGender(),
+                getUsernameOrEmail(signUpRequest.getEmail(), signUpRequest.getFirstName()),
                 geburtsdatum,
                 signUpRequest.getEmail(),
-                signUpRequest.getHandynummer(),
+                signUpRequest.getMobileNumber(),
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getInfo(),
-                signUpRequest.getStadt(),
-                signUpRequest.getLand(),
+                signUpRequest.getCity(),
+                signUpRequest.getCountry(),
                 signUpRequest.getHashtag()
                 );
 
@@ -151,8 +149,8 @@ public class AuthController {
                 }
             });
         }
-        benutzer.setCongozoRoles(congozoRoles);
-        userRepository.save(benutzer);
+        CongozoUser.setCongozoRoles(congozoRoles);
+        userRepository.save(CongozoUser);
         //TODO: Async implementieren
 //        Email email = new Email();
 //        email.setTo(benutzer.getEmail());

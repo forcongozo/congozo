@@ -1,6 +1,6 @@
 package com.congozo.service.security;
 
-import com.congozo.service.model.Benutzer;
+import com.congozo.service.model.CongozoUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,31 +27,31 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    private Benutzer benutzer;
+    private CongozoUser CongozoUser;
 
     public UserDetailsImpl(){
 
     }
 
     public UserDetailsImpl(Long id, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities, Benutzer benutzer) {
+                           Collection<? extends GrantedAuthority> authorities, CongozoUser CongozoUser) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
-        this.benutzer = benutzer;
+        this.CongozoUser = CongozoUser;
     }
 
-    public static UserDetailsImpl build(Benutzer benutzer) {
-        List<GrantedAuthority> authorities = benutzer.getCongozoRoles().stream()
+    public static UserDetailsImpl build(CongozoUser CongozoUser) {
+        List<GrantedAuthority> authorities = CongozoUser.getCongozoRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
         return new UserDetailsImpl(
-                benutzer.getId(),
-                benutzer.getEmail(),
-                benutzer.getPassword(),
+                CongozoUser.getId(),
+                CongozoUser.getEmail(),
+                CongozoUser.getPassword(),
                 authorities,
-                benutzer);
+                CongozoUser);
     }
 
     @Override
@@ -97,12 +97,12 @@ public class UserDetailsImpl implements UserDetails {
         return true;
     }
 
-    public Benutzer getBenutzer() {
-        return benutzer;
+    public CongozoUser getCongozoUser() {
+        return CongozoUser;
     }
 
-    public void setBenutzer(Benutzer benutzer) {
-        this.benutzer = benutzer;
+    public void setCongozoUser(CongozoUser congozoUser) {
+        this.CongozoUser = congozoUser;
     }
 
     @Override
