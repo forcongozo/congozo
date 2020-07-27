@@ -6,21 +6,11 @@ import 'bootstrap';
 import './style/congozo.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import VeeValidate from 'vee-validate';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import {
-  faHome,
-  faUser,
-  faUserPlus,
-  faSignInAlt,
-  faSignOutAlt
-} from '@fortawesome/free-solid-svg-icons';
-library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 
-Vue.config.productionTip = false
 Vue.config.productionTip = false;
 Vue.use(VeeValidate);
-Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
   router,

@@ -1,6 +1,6 @@
 <template>
-    <div class="full-container">
-        <div class="form-container">
+    <div class="congozo-container-full-width">
+        <div class="form-container congozo-bg-main">
             <div class="change-form">
                 <div class="radio-buttons">
                     <input
@@ -57,7 +57,7 @@
                             >{{errors.first('password')}}</div>
                         </div>
                         <div class="form-group">
-                            <button class="btn-main btn-block">Login</button>
+                            <button class="congozo-btn-main btn-block">Login</button>
                         </div>
                     </div>
                 </form>
@@ -67,7 +67,7 @@
                 <div class="social">
                     <div class="social-media-buttons">
                         <button class="facebook-button form-control"><i class="fab fa-facebook-square"/>Login with Facebook</button>
-                        <button class="google-button form-control">Login with Google</button>
+                        <button class="google-button form-control"><i class="fab fa-google"/>Login with Google</button>
                     </div>
                 </div>
                 <div class="privacy-policy">
@@ -77,8 +77,8 @@
             <div class="register-form-container" v-else>
                 <div class="social">
                     <div class="social-media-buttons">
-                        <button class="facebook-button form-control">Sign up with Facebook</button>
-                        <button class="google-button form-control">Sign up with Google</button>
+                        <button class="facebook-button form-control"><i class="fab fa-facebook-square"/>Sign up with Facebook</button>
+                        <button class="google-button form-control"><i class="fab fa-google"/>Sign up with Google</button>
                     </div>
                 </div>
                 <fieldset>
@@ -122,7 +122,7 @@
                             >{{errors.first('password')}}</div>-->
                         </div>
                         <div class="form-group">
-                            <button class="btn-main btn-block">Sign Up</button>
+                            <button class="congozo-btn-main btn-block">Sign Up</button>
                         </div>
                     </div>
                 </form>
@@ -216,14 +216,16 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     @import '../style/congozo.css';
 
-    .full-container {
+    .congozo-container-full-width {
         width: 100%;
+        height: 100%;
         padding: 50px 20px;
-        background-image: url("../assets/images/eddy-billard-42nzwGteFgI-unsplash.jpg");
+        background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url("../assets/images/eddy-billard-42nzwGteFgI-unsplash.jpg");
         background-size: cover;
+        background-position: center;
     }
 
     button {
@@ -236,67 +238,65 @@
         border-top: 1px solid #cdcdcd;
         margin: 1.6rem auto 1rem auto;
         max-width: 480px;
-    }
 
-    legend {
-        padding: 0 0.5rem;
-        margin: auto;
-        width: 40px;
-    }
-
-    h5 {
-        text-align: center;
-        margin: 1.5rem auto;
-    }
-
-    input {
-        margin: auto;
-    }
-
-    label {
-        font-weight: bold;
-    }
-
-    .register-form-container, .login-form-container {
-        padding: 20px;
+        legend {
+            padding: 0 0.5rem;
+            margin: auto;
+            width: 40px;
+        }
     }
 
     .form-container {
         margin: auto;
         max-width: 600px;
-        background-color: #F4F2F0;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
-    }
 
-    .form-group {
-        max-width: 480px;
-        margin: 20px auto;
-    }
+        h5 {
+            text-align: center;
+            margin: 1.5rem auto;
+        }
 
-    .form-control {
-        height: 3rem;
-        border-radius: 0;
-        max-width: 480px;
-    }
+        input {
+            margin: auto;
+        }
 
-    .social-media-buttons {
-        display: flex;
-        flex-wrap: wrap;
-    }
+        label {
+            font-weight: bold;
+        }
 
-    .social-media-buttons button {
-        width: 100%;
-        max-width: 480px;
-        border-radius: 0;
-        margin: 10px auto;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
+        .register-form-container, .login-form-container {
+            padding: 20px;
 
-    .facebook-button {
-        background-color: #3b5998;
-        color: white;
+            .form-group {
+                max-width: 480px;
+                margin: 20px auto;
+            }
+
+            .form-control {
+                height: 3rem;
+                border-radius: 0;
+                max-width: 480px;
+            }
+
+            .social-media-buttons {
+                display: flex;
+                flex-wrap: wrap;
+
+                button {
+                    width: 100%;
+                    border-radius: 0;
+                    margin: 10px auto;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+
+                .facebook-button {
+                    background-color: #3b5998;
+                    color: white;
+                }
+            }
+        }
     }
 
     .privacy-policy {
@@ -305,40 +305,39 @@
         text-align: center;
     }
 
-    .btn-main {
-        margin: auto;
-        text-transform: uppercase;
-    }
 
     /* Radio Buttons */
-
     .radio-buttons {
         text-align: center;
-    }
 
-    input[type="radio"] {
-        opacity: 0;
-        position: fixed;
-        width: 0;
-    }
-    .radio-buttons label {
-        width: 50%;
-        display: inline-block;
-        background-color: #F0A002;
-        color: white;
-        padding: 10px 10px;
-        font-family: sans-serif, Arial;
-        font-size: 16px;
-        border: 1px solid #F0A002;
-        cursor: pointer;
-        text-align: center;
-    }
-    input[type="radio"]:checked + label {
-        background-color: #35353A;
-        border-color: #35353A;
-    }
-    .radio-buttons label:hover {
-        border-color: #004bad;
+        input[type="radio"] {
+            opacity: 0;
+            position: fixed;
+            width: 0;
+        }
+
+        input[type="radio"]:checked + label {
+            background-color: #F0A002;
+            border: 1px solid #F0A002;
+        }
+
+        label {
+            width: 50%;
+            margin-bottom: 0;
+            display: inline-block;
+            background-color: #35353A;
+            color: white;
+            padding: 10px 10px;
+            font-family: sans-serif, Arial;
+            font-size: 16px;
+            border: 1px solid #35353A;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        label:hover {
+            border-color: #004bad;
+        }
     }
 
 </style>

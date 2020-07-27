@@ -77,9 +77,13 @@
     /*background: linear-gradient(45deg, rgba(101,31,87,1) 0%, rgba(225,113,87,1) 48%, rgba(249,248,113,1) 100%); */
     /*background: #ecd569 !important; */
 
-    #app, .congozo-container-full-width {
+    #app {
       height: auto;
       width: 100%;
+    }
+
+    .congozo-container-full-width {
+      height: 100%;
     }
   }
 

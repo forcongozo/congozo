@@ -6,8 +6,8 @@ const API_URL = 'http://localhost:9090/api/auth/';
 
 // initial state
 const state = {
-    authenticated: !!localStorage.getItem('user.token'),
-    token: localStorage.getItem('user.token'),
+    authenticated: !!localStorage.getItem('user.jwt'),
+    token: localStorage.getItem('user.jwt'),
     roles: JSON.parse(localStorage.getItem('user.roles')) || []
 };
 
@@ -38,7 +38,7 @@ const actions = {
                 password: user.password
             })
             .then(response => {
-                if (response.data.accessToken) {
+                if (response.data) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
                 commit(LOGIN, response.data.roles)
@@ -51,20 +51,18 @@ const actions = {
                 password: user.password
             })
             .then(response => {
-                if (response.data.accessToken) {
+                if (response.data) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
                 commit(LOGIN, response.data.roles)
             });
     },
     logout ({ commit }) {
-        sessionStorage.removeItem('token')
-        sessionStorage.removeItem('timestamp');
-        sessionStorage.removeItem('roles')
-        delete axios.defaults.headers.common['Authentification']
+        localStorage.removeItem('user');
+        delete axios.defaults.headers.common['Authentification'];
         commit(LOGOUT)
     }
-}
+};
 
 export default {
     state,
