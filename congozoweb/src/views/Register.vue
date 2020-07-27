@@ -66,7 +66,7 @@
                 </fieldset>
                 <div class="social">
                     <div class="social-media-buttons">
-                        <button class="facebook-button form-control">Login with Facebook</button>
+                        <button class="facebook-button form-control"><i class="fab fa-facebook-square"/>Login with Facebook</button>
                         <button class="google-button form-control">Login with Google</button>
                     </div>
                 </div>
@@ -89,23 +89,6 @@
                 </div>
                 <form name="form" @submit.prevent="handleRegister">
                     <div class="form-input-container" v-if="!successful">
-                        <div class="form-group">
-                            <label for="first-name">Username:</label>
-                            <input
-                                    v-model="user.name"
-                                    v-validate="'required|min:3|max:20'"
-                                    type="text"
-                                    class="form-control"
-                                    name="username"
-                                    id="first-name"
-                                    placeholder="Enter username"
-                            />
-                            <!--<div
-                                    v-if="submitted && errors.has('vorname')"
-                                    class="alert-danger"
-                            >{{errors.first('vorname')}}</div>-->
-                        </div>
-
                         <div class="form-group">
                             <label for="email">E-Mail:</label>
                             <input
@@ -161,7 +144,6 @@
         data() {
             return {
                 user: {
-                    vorname: '',
                     email: '',
                     password: ''
                 },
@@ -192,6 +174,8 @@
                             data => {
                                 this.message = data.message;
                                 this.successful = true;
+                                this.user.email = '';
+                                this.user.password = '';
                             },
                             error => {
                                 this.message =
@@ -214,6 +198,8 @@
                             data => {
                                 this.message = data.message;
                                 this.successful = true;
+                                this.user.email = '';
+                                this.user.password = '';
                             },
                             error => {
                                 this.message =

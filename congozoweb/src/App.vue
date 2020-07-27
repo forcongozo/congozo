@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- Replace with Navbar Component later -->
     <nav id="main-nav" class="navbar navbar-expand-lg navbar-light bg-light">
       <ul>
         <li>
@@ -9,9 +10,6 @@
           <div class="logo">
             ConGozo
           </div>
-        </li>
-        <li class="login">
-          <router-link to="/login">Anmelden/ Registrieren</router-link>
         </li>
       </ul>
     </nav>
@@ -66,7 +64,7 @@
     }
   }
 </script>
-<style>
+<style lang="scss">
   @import './style/congozo.css';
 
   html {
@@ -74,19 +72,20 @@
   }
 
   body {
-    border: 0; margin: 0; padding: 0;
-    font-family: 'Lato';
     height: 100%;
     /*background: rgb(101,31,87); */
     /*background: linear-gradient(45deg, rgba(101,31,87,1) 0%, rgba(225,113,87,1) 48%, rgba(249,248,113,1) 100%); */
     /*background: #ecd569 !important; */
 
+    #app, .congozo-container-full-width {
+      height: auto;
+      width: 100%;
+    }
   }
 
   .logo {
     align-self: center;
     font-weight: bold;
-    font-family: 'Lato'
   }
 
   .main-nav {

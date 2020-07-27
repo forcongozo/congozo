@@ -1,11 +1,9 @@
 .congozo-container {
-  max-width: 1400px;
-  padding: 0 2rem;
+  height: auto;
   margin: auto;
   overflow: hidden; }
 
 .congozo-container-full-width {
-  max-width: 1400px;
   margin: auto;
   overflow: hidden; }
 
@@ -15,9 +13,10 @@
   transition: all 1s;
   border: none;
   cursor: pointer;
-  font-family: open-sans;
+  font-family: open-sans, serif;
   font-weight: 700;
-  border-radius: 10px; }
+  text-transform: uppercase;
+  border-radius: 30px; }
 
 .congozo-error {
   color: red; }
@@ -109,6 +108,10 @@ body {
   font-weight: 300;
   line-height: 1.6;
   background: #fff; }
+
+template {
+  height: inherit;
+}
 
 a {
   font-style: italic;
