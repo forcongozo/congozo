@@ -99,8 +99,8 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur eos facere fuga magnam nesciunt nobis optio quia? Aspernatur aut, dolore eos facilis, in maxime modi mollitia neque nisi reiciendis soluta.</p>
                 </div>
                 <div class="become-button">
-                    <button class="congozo-btn-main btn-block">Start Exploring</button>
-                </div>
+                <button class="congozo-btn-main btn-block">Start Exploring</button>
+            </div>
             </div>
         </div>
     </div>

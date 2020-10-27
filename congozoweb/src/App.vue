@@ -24,7 +24,7 @@
           </li>
           <li><a href="#erlebnis_suchen">Erlebnis suchen</a>
           </li>
-          <li><a href="#erlebnis_anbieten">Erlebnis anbieten</a>
+          <li><a href="create">Erlebnis anbieten</a>
           </li>
           <li><a href="#profile">Dein Profile</a>
           </li>
