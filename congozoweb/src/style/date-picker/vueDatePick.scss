@@ -46,11 +46,10 @@ $vdpColor: #f0a002 !default;
 }
 
 .vdpComponent {
-
     position: relative; display: inline-block; font-size: 10px;
     color: #303030;
     /*font-family: Helvetica, Arial, sans-serif;*/
-
+    padding: 0 20px;
 }
 
 .vdpComponent.vdpWithInput > input {
@@ -439,3 +438,16 @@ $vdpColor: #f0a002 !default;
 
 }
 
+@media (max-width: 320px) {
+    .vdpComponent {
+       font-size: 6px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .vdpComponent {
+        font-size: 8px;
+        padding: 0;
+    }
+}

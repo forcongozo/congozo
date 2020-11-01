@@ -5,6 +5,11 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem magni quam.</p>
         </div>
         <div class="main-container">
+            <div class="form-steps">
+                <div class="step"><h6>Basics</h6></div>
+                <div class="step"><h6>Photos</h6></div>
+                <div class="step"><h6>Done</h6></div>
+            </div>
             <div class="form-group">
                 <div class="search-input-container">
                     <label for="search-photo"/>
@@ -58,8 +63,27 @@
                     </ul>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="description-container">
+                    <h5>Write a short description about your experience*</h5>
+                    <label for="description"/>
+                    <textarea
+                            v-model="experience.description"
+                            type="text"
+                            class="form-control"
+                            name="description"
+                            id="description"
+                            placeholder="Enter description (Max. 400 characters)"
+                            maxlength="400"
+                    />
+                    <div
+                            v-if="submitted && errors.has('description')"
+                            class="alert-danger"
+                    >{{errors.first('description')}}</div>
+                </div>
+            </div>
             <div class="continue-button">
-                <button class="congozo-btn-main btn-block" @click="submit">Save and Continue</button>
+                <button class="congozo-btn-main btn-block" @click="submit">Create experience</button>
             </div>
         </div>
     </div>
@@ -123,25 +147,29 @@
                 });
             },
             addPhoto(photo) {
-                this.experience.unsplashPhotos.push(photo);
+                if (!this.maximumNumberOfPhotos()) {
+                    this.experience.unsplashPhotos.push(photo);
+                }
                 console.log(photo)
             },
             uploadPhoto(e) {
-                let file = e.target.files[0];
-                this.experience.myPersonalPhotos.push(file);
+                if (!this.maximumNumberOfPhotos()) {
+                    let file = e.target.files[0];
+                    this.experience.myPersonalPhotos.push(file);
 
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    let previewDiv = document.getElementById('my-photos-list-id');
-                    let li = document.createElement('v-li');
-                    li.setAttribute('class', 'list-item');
-                    li.innerHTML =
-                        "<img class='thumbnail' src='" + e.target.result + "' title='" + file.name + "' alt='image preview'/>";
-                    previewDiv.appendChild(li);
-                };
-                reader.readAsDataURL(file)
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        let previewDiv = document.getElementById('my-photos-list-id');
+                        let li = document.createElement('v-li');
+                        li.setAttribute('class', 'list-item');
+                        li.innerHTML =
+                            "<img class='thumbnail' src='" + e.target.result + "' title='" + file.name + "' alt='image preview'/>";
+                        previewDiv.appendChild(li);
+                    };
+                    reader.readAsDataURL(file)
 
-                console.log(reader);
+                    console.log(reader);
+                }
             },
             previousPage() {
                 if (this.param.page > 1) {
@@ -152,6 +180,9 @@
             nextPage() {
                 this.param.page += 1;
                 this.searchPhoto();
+            },
+            maximumNumberOfPhotos() {
+                return (this.experience.unsplashPhotos.length + this.experience.myPersonalPhotos.length) >= 5;
             }
         }
     }
@@ -170,6 +201,38 @@
         h3, p {
             color: black;
             text-align: center;
+        }
+    }
+
+    .form-steps {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .step {
+            width: 33%;
+
+            h6 {
+                height: 40px;
+                text-align: center;
+                padding-top: 10px;
+                color: white;
+                background-color: rgba(0, 0, 0, 0.75);
+                -webkit-clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
+                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
+            }
+        }
+
+        .step:not(:last-child) {
+            h6 {
+                background-color: rgba(235, 0, 0, 0.75);
+            }
+        }
+
+        .step:first-child {
+            h6 {
+                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 0% 100%, 0% 0%, 0% 0%);
+            }
         }
     }
 
@@ -228,8 +291,10 @@
                 background-color: white;
 
                 .list-item {
-                    width: 32%;
+                    min-width: 150px;
+                    max-width: 180px;
                     margin: 5px auto;
+                    padding: 0 5px;
                     position: relative;
 
                     img {
@@ -256,7 +321,7 @@
                     button {
                         position: absolute;
                         top: 30px;
-                        left: 55px;
+                        left: 47px;
                         text-align: center;
                         opacity: 0;
                         transition: opacity .35s ease;
@@ -339,9 +404,11 @@
                 margin: 0;
 
                 .list-item {
-                    width: 32%;
+                    min-width: 150px;
+                    max-width: 180px;
                     margin: 5px auto;
                     position: relative;
+                    padding: 0 5px;
 
                     img {
                         display: block;
@@ -350,6 +417,22 @@
                         width: auto;
                     }
                 }
+            }
+        }
+
+        .description-container {
+            margin-bottom: 2rem;
+
+            h5 {
+                color: white;
+                background-color: rgba(0, 0, 0, 0.75);
+                padding: 20px;
+            }
+
+            textarea {
+                height: 250px !important;
+                border-radius: 10px !important;
+                padding: 20px;
             }
         }
     }

@@ -91,12 +91,6 @@
                 this.latitude = this.searchLocation.lat;
                 this.zoom = 16;
                 this.createMap();
-                /*
-                let self = this;
-                setTimeout(function () {
-                    self.search();
-                    }, 1000);
-                 */
             }
         },
         mounted: function () {
@@ -110,9 +104,9 @@
 
     #map {
         position: absolute;
-        top: 2280px;
-        width: 636px;
-        height: 300px;
+        top: 2520px;
+        width: 80%;
+        height: 230px;
         border: 1px solid #F0A002;
         border-radius: 10px;
 
@@ -120,5 +114,80 @@
             border-radius: 15px;
         }
     }
+
+    @media (min-width: 300px) {
+        top: 2500px;
+    }
+
+    @media(min-width: 320px) {
+        #map {
+            top: 2520px;
+        }
+    }
+
+    @media(min-width: 350px) {
+        #map {
+            width: 82%;
+            margin-left: 0;
+        }
+    }
+
+    @media(min-width: 375px) {
+        #map {
+            top: 2470px;
+            height: 250px;
+        }
+    }
+
+    @media(min-width: 400px) {
+        #map {
+            width: 85%;
+            top: 2280px;
+        }
+    }
+
+    @media(min-width: 440px) {
+        #map {
+            top: 2230px;
+        }
+    }
+
+    @media(min-width: 450px) {
+        #map {
+            width: 86%;
+            top: 2220px;
+        }
+    }
+
+    @media(min-width: 475px) {
+        #map {
+            top: 2210px;
+        }
+    }
+
+    @media(min-width: 480px) {
+        #map {
+            top: 2280px;
+        }
+    }
+
+    @media(min-width: 500px) {
+        #map {
+            width: 88%;
+        }
+    }
+
+    @media(min-width: 600px) {
+        #map {
+            width: 90%;
+        }
+    }
+
+    @media(min-width: 700px) {
+        #map {
+            width: 636px;
+        }
+    }
+
 </style>
 

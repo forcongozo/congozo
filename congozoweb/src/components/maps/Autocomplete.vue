@@ -41,14 +41,14 @@
         position: absolute;
         z-index: 1;
         background-color: white;
-        width: 600px;
+        max-width: 600px;
         border-radius: 20px;
-        margin-left: 20px;
         overflow: hidden;
+        margin-left: 20px;
     }
 
     .autocomplete-results {
-        padding: 0;
+        padding: 0 10px;
         border: 1px solid rgba(0, 0, 0, 0.75);
         border-radius: 20px;
         max-height: 120px;
