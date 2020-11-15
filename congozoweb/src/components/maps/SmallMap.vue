@@ -105,7 +105,7 @@
 
     #map {
         position: absolute;
-        top: 1150px;
+        top: 1070px;
         width: 80%;
         height: 230px;
         border: 1px solid #F0A002;
@@ -117,12 +117,12 @@
     }
 
     @media (min-width: 300px) {
-        top: 2500px;
+        top: 1100px;
     }
 
     @media(min-width: 320px) {
         #map {
-            top: 1150px;
+            top: 1050px;
         }
     }
 
@@ -135,7 +135,7 @@
 
     @media(min-width: 375px) {
         #map {
-            top: 1150px;
+            top: 1020px;
             height: 250px;
         }
     }
@@ -143,7 +143,7 @@
     @media(min-width: 400px) {
         #map {
             width: 85%;
-            top: 1150px;
+            top: 1020px;
         }
     }
 
@@ -165,7 +165,7 @@
 
     @media(min-width: 480px) {
         #map {
-            top: 1150px;
+            top: 1020px;
         }
     }
 
