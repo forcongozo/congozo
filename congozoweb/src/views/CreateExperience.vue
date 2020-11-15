@@ -7,6 +7,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     import ExperienceFirst from "../components/ExperienceFirst";
     import ExperienceSecond from "../components/ExperienceSecond";
     import ExperienceThird from "../components/ExperienceThird";
@@ -25,6 +27,7 @@
             };
         },
         computed: {
+            ...mapGetters(['experienceData'])
         },
         created() {
         },
@@ -40,6 +43,7 @@
                 Object.entries(value).forEach(entry => {
                     this.experience[entry[0]] = entry[1];
                 });
+                this.$store.dispatch('saveExperienceData', value);
             },
             async createExperience() {
                 if (!!this.experience.myPersonalPhotos && this.experience.myPersonalPhotos.length !== 0) {

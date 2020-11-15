@@ -22,7 +22,8 @@
         },
         methods: {
             createMap() {
-                var key = 'pk.349f95f3dff13624c697cab4b5c5057f';   //Insert your LocationIQ access token here
+
+                const key = 'pk.349f95f3dff13624c697cab4b5c5057f';   //Insert your LocationIQ access token here
 
                 let self = this;
 
@@ -104,7 +105,7 @@
 
     #map {
         position: absolute;
-        top: 2520px;
+        top: 1150px;
         width: 80%;
         height: 230px;
         border: 1px solid #F0A002;
@@ -121,7 +122,7 @@
 
     @media(min-width: 320px) {
         #map {
-            top: 2520px;
+            top: 1150px;
         }
     }
 
@@ -134,7 +135,7 @@
 
     @media(min-width: 375px) {
         #map {
-            top: 2470px;
+            top: 1150px;
             height: 250px;
         }
     }
@@ -142,32 +143,29 @@
     @media(min-width: 400px) {
         #map {
             width: 85%;
-            top: 2280px;
+            top: 1150px;
         }
     }
 
     @media(min-width: 440px) {
         #map {
-            top: 2230px;
         }
     }
 
     @media(min-width: 450px) {
         #map {
             width: 86%;
-            top: 2220px;
         }
     }
 
     @media(min-width: 475px) {
         #map {
-            top: 2210px;
         }
     }
 
     @media(min-width: 480px) {
         #map {
-            top: 2280px;
+            top: 1150px;
         }
     }
 

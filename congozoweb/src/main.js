@@ -9,6 +9,7 @@ import VeeValidate from 'vee-validate';
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import axios from 'axios'
+import VModal from 'vue-js-modal'
 
 Vue.prototype.$http = axios;
 
@@ -20,6 +21,13 @@ Vue.use(VueLayers);
 Vue.config.productionTip = false;
 Vue.use(VeeValidate);
 
+Vue.use(VModal);
+
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
+
+Vue.component('VueSlider', VueSlider);
+
 // ES Modules syntax
 import fetch from 'node-fetch';
 global.fetch = fetch;
@@ -28,4 +36,4 @@ new Vue({
   router,
   store,
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

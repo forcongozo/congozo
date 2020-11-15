@@ -5,11 +5,6 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem magni quam.</p>
         </div>
         <div class="main-container">
-            <div class="form-steps">
-                <div class="step"><h6>Basics</h6></div>
-                <div class="step"><h6>Photos</h6></div>
-                <div class="step"><h6>Done</h6></div>
-            </div>
             <div class="form-group name">
                 <label for="name">Give your experience a title*</label>
                 <input
@@ -19,80 +14,12 @@
                         name="name"
                         id="name"
                         placeholder="Enter title"
+                        v-validate="'required'"
                 />
-                <div
-                        v-if="submitted && errors.has('name')"
-                        class="alert-danger"
-                >{{errors.first('name')}}</div>
+                <span v-if="errors.has('name')" class="error-message">Experience title is empty</span>
             </div>
-            <div class="form-group">
-                <div class="participants-container">
-                    <h5>Please set a number of participants</h5>
-                    <div>
-                        <div>
-                            <h3>Min.</h3>
-                            <div class="icons-participants">
-                                <button @click="subMin()"><i class="fas fa-minus-square"/></button>
-                                <p>{{this.experience.minParticipants}}</p>
-                                <button @click="addMin()"><i class="fas fa-plus-square"/></button>
-                            </div>
-                        </div>
-                        <div>
-                            <i class="fas fa-users"/>
-                        </div>
-                        <div>
-                            <h3>Max.</h3>
-                            <div class="icons-participants">
-                                <button @click="subMax()"><i class="fas fa-minus-square"/></button>
-                                <p>{{this.experience.maxParticipants}}</p>
-                                <button @click="addMax()"><i class="fas fa-plus-square"/></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="duration-container">
-                    <h5>How long will it take approximately*</h5>
-                    <div>
-                        <div class="icons-duration">
-                            <button @click="subDur()"><i class="fas fa-minus-square"/></button>
-                            <div>
-                                <p>{{this.experience.duration}}</p>
-                                <p>Hours</p>
-                            </div>
-                            <button @click="addDur()"><i class="fas fa-plus-square"/></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="date-container">
-                    <h5>Please select the date below*</h5>
-                    <date-pick-component @meetingDate="setDate" />
-                    <div
-                            v-if="submitted && errors.has('date')"
-                            class="alert-danger"
-                    >{{errors.first('date')}}</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="time-container">
-                    <h5>What time does the adventure start?*</h5>
-                    <label for="time"/>
-                    <input
-                            v-model="experience.time"
-                            type="time"
-                            class="form-control"
-                            name="time"
-                            id="time"
-                            placeholder="Enter time"
-                    />
-                    <div
-                            v-if="submitted && errors.has('time')"
-                            class="alert-danger"
-                    >{{errors.first('time')}}</div>
-                </div>
+            <div class="modal-button">
+                <button class="btn-block" @click="openModal">Select date and time</button>
             </div>
             <div class="form-group custom">
                 <div class="location-container">
@@ -137,15 +64,13 @@
                                 name="location"
                                 id="location"
                                 placeholder="Type the address here"
+                                v-validate="'required'"
                         />
                         <Autocomplete :items="this.addressSearchResults" @selected="showSelectResult" v-if="experience.meetingLocation !== ''"/>
+                        <span v-if="errors.has('location')" class="error-message">Meeting location is empty</span>
                         <div class="small-map-container">
                             <small-map :search-location="this.addressSearchSelected" />
                         </div>
-                        <div
-                                v-if="submitted && errors.has('location')"
-                                class="alert-danger"
-                        >{{errors.first('location')}}</div>
                     </div>
                 </div>
             </div>
@@ -177,22 +102,23 @@
                         <label for="language-english" id="label-english"/>
                     </div>
                 </div>
-                <div
-                        v-if="submitted && errors.has('language')"
-                        class="alert-danger"
-                >{{errors.first('language')}}</div>
             </div>
             <div class="form-group">
                 <div class="expenses-container">
                     <h5>Are there any additional expenses?*</h5>
                     <div>
                         <div class="icons-expenses">
-                            <button @click="subExpenses()"><i class="fas fa-minus-square"/></button>
                             <div>
                                 <i class="fas fa-coins"/>
                                 <p>~ {{this.experience.expenses}} €</p>
+                                <vue-slider v-model="experience.expenses" class="vue-slider"
+                                            dotSize="20"
+                                            width="300px"
+                                            :min=0
+                                            :max=24
+                                            :interval=0.5
+                                />
                             </div>
-                            <button @click="addExpenses()"><i class="fas fa-plus-square"/></button>
                         </div>
                         <div class="expenses-input-container">
                             <label for="expense-items"/>
@@ -254,38 +180,25 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group terms-conditions">
-                <div>
-                    <input
-                            v-model="experience.privacyPolicy"
-                            class="form-control"
-                            id="privacy-policy"
-                            type="checkbox"
-                            name="privacy-policy"
-                    />
-                    <label for="privacy-policy">
-                        I agree to the <a href="#">Terms and Conditions</a>
-                    </label>
-                </div>
-            </div>
             <div class="continue-button">
                 <button class="congozo-btn-main btn-block" @click="submit">Save and Continue</button>
             </div>
         </div>
+        <ExperienceInfoModal/>
     </div>
 </template>
 
 <script>
     import SmallMap from "./maps/SmallMap";
     import Autocomplete from "./maps/Autocomplete";
-    import DatePickComponent from "./DatePickComponent";
+    import ExperienceInfoModal from "./modals/ExperienceInfoModal";
 
     export default {
         name: '',
         components: {
-            DatePickComponent,
             SmallMap,
-            Autocomplete
+            Autocomplete,
+            ExperienceInfoModal
         },
         props: {
             page: Number
@@ -294,11 +207,6 @@
             return {
                 experience: {
                     experienceName: '',
-                    minParticipants: 1,
-                    maxParticipants: 1,
-                    duration: 1,
-                    date: '',
-                    time: '',
                     fixedMeetingPoint: true,
                     meetingLocation: '',
                     language: [],
@@ -309,7 +217,6 @@
                 },
                 expenseItem: '',
                 specRequirement: '',
-                submitted: false,
                 addressSearchResults: [],
                 addressSearchSelected: '',
                 addressSearchSelectedFlag: false,
@@ -322,8 +229,16 @@
         },
         methods: {
             submit() {
-                this.$emit('nextPage', 2);
-                this.$emit('experienceInfo', this.experience);
+                this.$validator.validate().then(valid => {
+                    if (valid) {
+                        console.log('no error');
+                        this.$emit('nextPage', 2);
+                        this.$emit('experienceInfo', this.experience);
+                    }
+                    else {
+                        console.log('error');
+                    }
+                });
             },
             showSelectResult(result) {
                 this.addressSearchSelected = result;
@@ -335,40 +250,6 @@
                 const response = await this.$http.get(`https://eu1.locationiq.com/v1/search.php?key=pk.349f95f3dff13624c697cab4b5c5057f&q=${this.experience.meetingLocation}&countrycodes=ISO 3166-2:AT&format=json`);
                 console.log(response.data);
                 this.addressSearchResults = response.data;
-            },
-            subMin() {
-                if (this.experience.minParticipants > 1) {
-                    this.experience.minParticipants--;
-                }
-            },
-            addMin() {
-                if (this.experience.minParticipants < this.experience.maxParticipants) {
-                    this.experience.minParticipants++;
-                }
-            },
-            subMax() {
-                if (this.experience.maxParticipants > this.experience.minParticipants) {
-                    this.experience.maxParticipants--;
-                }
-            },
-            addMax() {
-                this.experience.maxParticipants++;
-            },
-            subDur() {
-                if (this.experience.duration > 1) {
-                    this.experience.duration = this.experience.duration - 0.5;
-                }
-            },
-            addDur() {
-                this.experience.duration = this.experience.duration + 0.5;
-            },
-            subExpenses() {
-                if (this.experience.expenses > 0) {
-                    this.experience.expenses = this.experience.expenses - 0.5;
-                }
-            },
-            addExpenses() {
-                this.experience.expenses = this.experience.expenses + 0.5;
             },
             addExpenseItems() {
                 if (this.expenseItem !== ''){
@@ -396,8 +277,8 @@
                     }
                 })
             },
-            setDate(date) {
-                this.experience.date = date;
+            openModal() {
+                this.$modal.show('experience-info')
             }
         },
         watch: {
@@ -417,6 +298,10 @@
 
 <style scoped lang="scss">
     @import '../style/congozo.css';
+
+    .vue-slider {
+        margin: 20px 0;
+    }
 
     .image-container {
         height: 300px;
@@ -441,34 +326,23 @@
         padding: 3rem 2rem;
     }
 
-    .form-steps {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
+    .modal-button {
+        padding: 30px 10px;
 
-        .step {
-            width: 33%;
-
-            h6 {
-                height: 40px;
-                text-align: center;
-                padding-top: 10px;
-                color: white;
-                background-color: rgba(0, 0, 0, 0.75);
-                -webkit-clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
-                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
-            }
-        }
-
-        .step:first-child {
-            h6 {
-                background-color: rgba(235, 0, 0, 0.75);
-                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 0% 100%, 0% 0%, 0% 0%);
-            }
+        button {
+            color: #F0A002;
+            background-color: transparent;
+            border: solid 1px #F0A002;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: auto;
+            height: 3rem;
+            text-transform: uppercase;
         }
     }
 
     .form-group {
+        border-bottom: none;
         margin: 0 auto;
 
         label {
@@ -495,20 +369,24 @@
         #location {
             margin-bottom: 0;
         }
+
+        .error-message {
+            margin: auto 20px 20px;
+        }
     }
 
     .name {
-        height: 150px;
         padding: 30px 10px;
         background-color: #F0A002;
         color: white;
 
         input {
             border-radius: 20px;
+            margin-bottom: 0 !important;
         }
     }
 
-    .participants-container, .duration-container, .date-container, .time-container, .location-container, .expenses-container, .language, .requirements-container {
+    .location-container, .expenses-container, .language, .requirements-container {
         margin-bottom: 2rem;
 
         h5 {
@@ -516,16 +394,6 @@
             background-color: rgba(0, 0, 0, 0.75);
             padding: 20px;
             margin-bottom: 2rem;
-        }
-    }
-
-    .time-container {
-        label {
-            display: none;
-        }
-
-        input {
-            border: 1px solid #f0a002;
         }
     }
 
@@ -564,11 +432,11 @@
         }
     }
 
-    .participants-container > div, .duration-container > div, .expenses-container > div {
+    .expenses-container > div {
         display: flex;
         justify-content: space-around;
 
-        .icons-participants, .icons-duration, .icons-expenses {
+        .icons-expenses {
             display: flex;
 
             .fa-plus-square, .fa-minus-square {
@@ -602,7 +470,7 @@
             justify-content: center;
         }
 
-        .fa-users, .fa-coins {
+        .fa-coins {
             color: #F0A002;
             font-size: 3rem !important;
         }
@@ -752,21 +620,6 @@
         }
     }
 
-    .terms-conditions {
-        div {
-            display: flex;
-            padding: 0 20px;
-
-            input {
-                max-width: 2rem !important;
-                margin: 0 !important;
-            }
-            label {
-                font-size: 1.25rem;
-                margin: auto auto auto 20px;
-            }
-        }
-    }
 
     .continue-button {
         margin-top: 30px;

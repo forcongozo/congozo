@@ -5,11 +5,6 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Distinctio dolorem magni quam.</p>
         </div>
         <div class="main-container">
-            <div class="form-steps">
-                <div class="step"><h6>Basics</h6></div>
-                <div class="step"><h6>Photos</h6></div>
-                <div class="step"><h6>Done</h6></div>
-            </div>
             <div class="form-group">
                 <div class="search-input-container">
                     <label for="search-photo"/>
@@ -19,7 +14,7 @@
                             type="text"
                             class="form-control"
                             id="search-photo"
-                            placeholder="Search with unsplash"
+                            placeholder="Search images with unsplash"
                     />
                     <button :disabled="dataLoading" type="button" @click="searchPhoto">
                         <i class="fas fa-search"/>
@@ -59,6 +54,8 @@
                     <ul class="my-photos-list" id="my-photos-list-id">
                         <li v-for="photo in experience.unsplashPhotos" :key="photo.id" class="list-item">
                             <img :src="photo.urls.regular"  alt="photo" class="photo-item"/>
+                            <div class="overlay"></div>
+                            <button @click="removeUnsplashImage(photo)"><i class="fas fa-minus-circle"/></button>
                         </li>
                     </ul>
                 </div>
@@ -75,11 +72,25 @@
                             id="description"
                             placeholder="Enter description (Max. 400 characters)"
                             maxlength="400"
+                            v-validate="'required'"
                     />
-                    <div
-                            v-if="submitted && errors.has('description')"
-                            class="alert-danger"
-                    >{{errors.first('description')}}</div>
+                    <span v-if="errors.has('description')">Description is empty</span>
+                </div>
+            </div>
+            <div class="form-group terms-conditions">
+                <div>
+                    <input
+                            v-model="experience.privacyPolicy"
+                            class="form-control"
+                            id="privacy-policy"
+                            type="checkbox"
+                            name="privacy-policy"
+                            v-validate="'required'"
+                    />
+                    <label for="privacy-policy">
+                        I agree to the <a href="#">Terms and Conditions</a>
+                    </label>
+                    <span v-if="errors.has('privacy-policy')">You have to agree to the Terms and Conditions</span>
                 </div>
             </div>
             <div class="continue-button">
@@ -135,8 +146,16 @@
         },
         methods: {
             submit() {
-                this.$emit('nextPage', 3);
-                this.$emit('experienceInfo', this.experience)
+                this.$validator.validate().then(valid => {
+                    if (valid) {
+                        console.log('no error');
+                        this.$emit('nextPage', 3);
+                        this.$emit('experienceInfo', this.experience)
+                    }
+                    else {
+                        console.log('error');
+                    }
+                });
             },
             searchPhoto() {
                 this.dataLoading = true;
@@ -156,20 +175,42 @@
                 if (!this.maximumNumberOfPhotos()) {
                     let file = e.target.files[0];
                     this.experience.myPersonalPhotos.push(file);
+                    const self = this;
 
                     let reader = new FileReader();
                     reader.onload = function (e) {
                         let previewDiv = document.getElementById('my-photos-list-id');
                         let li = document.createElement('v-li');
                         li.setAttribute('class', 'list-item');
+                        li.setAttribute('id', file.name + '-1');
                         li.innerHTML =
-                            "<img class='thumbnail' src='" + e.target.result + "' title='" + file.name + "' alt='image preview'/>";
+                            "<img class='thumbnail' src='" + e.target.result + "' title='" + file.name + "' alt='image preview'/>"
+                            + "<div class='overlay'></div>"
+                            + "<button id='" + file.name + "'><i class='fas fa-minus-circle'/></button>";
                         previewDiv.appendChild(li);
+                        self.removeUploadedImage(file.name);
                     };
-                    reader.readAsDataURL(file)
-
-                    console.log(reader);
+                    reader.readAsDataURL(file);
                 }
+            },
+            removeUploadedImage (name) {
+                const self = this;
+                document.getElementById(name).addEventListener('click', function () {
+                    self.experience.myPersonalPhotos.forEach((item, index) => {
+                        if (item.name === name) {
+                            self.experience.myPersonalPhotos.splice(index, 1);
+                            let elem = document.getElementById(name + '-1');
+                            elem.remove()
+                        }
+                    })
+                })
+            },
+            removeUnsplashImage(photo) {
+                this.experience.unsplashPhotos.forEach((item, index) => {
+                    if (item.id === photo.id) {
+                        this.experience.unsplashPhotos.splice(index, 1);
+                    }
+                })
             },
             previousPage() {
                 if (this.param.page > 1) {
@@ -204,38 +245,6 @@
         }
     }
 
-    .form-steps {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-
-        .step {
-            width: 33%;
-
-            h6 {
-                height: 40px;
-                text-align: center;
-                padding-top: 10px;
-                color: white;
-                background-color: rgba(0, 0, 0, 0.75);
-                -webkit-clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
-                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 10% 100%, 0% 100%, 10% 50%);
-            }
-        }
-
-        .step:not(:last-child) {
-            h6 {
-                background-color: rgba(235, 0, 0, 0.75);
-            }
-        }
-
-        .step:first-child {
-            h6 {
-                clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 100% 50%, 90% 100%, 0% 100%, 0% 0%, 0% 0%);
-            }
-        }
-    }
-
     .main-container {
         width: 100%;
         max-width: 600px;
@@ -244,6 +253,7 @@
         padding: 3rem 2rem;
 
         .form-group {
+            border-bottom: none;
 
             .form-control {
                 height: 3rem;
@@ -313,11 +323,6 @@
                         transition: background 0.5s ease;
                     }
 
-                    .container:hover .overlay {
-                        display: block;
-                        background: rgba(0, 0, 0, .3);
-                    }
-
                     button {
                         position: absolute;
                         top: 30px;
@@ -329,6 +334,7 @@
                         border: none;
                         display: inline-block;
                         outline: none;
+                        pointer-events: none;
                     }
 
                     .fa-plus-circle {
@@ -342,6 +348,7 @@
 
                 .list-item:hover button {
                     opacity: 1;
+                    pointer-events: all;
                 }
 
                 .list-item:hover {
@@ -416,6 +423,46 @@
                         max-height: 100px;
                         width: auto;
                     }
+
+                    // hover button
+                    .overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        background: rgba(0, 0, 0, 0);
+                        transition: background 0.5s ease;
+                    }
+
+                    button {
+                        position: absolute;
+                        top: 30px;
+                        left: 47px;
+                        text-align: center;
+                        opacity: 0;
+                        transition: opacity .35s ease;
+                        background-color: transparent;
+                        border: none;
+                        display: inline-block;
+                        outline: none;
+                        pointer-events: none;
+                    }
+
+                    .fa-minus-circle {
+                        text-align: center;
+                        color: #F0A002;
+                        font-size: 40px;
+                        margin: auto 10px;
+                        z-index: 1;
+                    }
+                }
+
+                .list-item:hover button {
+                    opacity: 1;
+                    pointer-events: all;
+                }
+
+                .list-item:hover {
+                    opacity: 0.8;
                 }
             }
         }
@@ -433,6 +480,22 @@
                 height: 250px !important;
                 border-radius: 10px !important;
                 padding: 20px;
+            }
+        }
+
+        .terms-conditions {
+            div {
+                display: flex;
+                padding: 0 20px;
+
+                input {
+                    max-width: 2rem !important;
+                    margin: 0 !important;
+                }
+                label {
+                    font-size: 1.25rem;
+                    margin: auto auto auto 20px;
+                }
             }
         }
     }

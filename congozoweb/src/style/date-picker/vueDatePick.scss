@@ -131,7 +131,7 @@ $vdpColor: #f0a002 !default;
 
 .vdpHeader {
 
-    position: relative; padding: 0 1em 2.5em; margin: -1em -1em -2.5em;
+    position: relative; padding: 0 1em 0.5em; margin: -1em -1em -2.5em;
     text-align: center; background: #f5f5f5;
 
 }
@@ -156,8 +156,8 @@ $vdpColor: #f0a002 !default;
 
 .vdpArrow {
 
-    font-size: 2em; width: 5em; text-indent: -999em; overflow: hidden;
-    position: absolute; top: 0; bottom: 2.5em; text-align: left;
+    font-size: 2em; width: 5em; text-indent: -999em;
+    position: absolute; top: 1.3em; bottom: 2.5em; text-align: left;
 
 }
 
@@ -236,7 +236,7 @@ $vdpColor: #f0a002 !default;
 
 .vdpPeriodControl > button {
 
-    font-size: 2em; padding: 1em 0.4em; display: inline-block;
+    font-size: 2em; padding: 0.5em 0.4em 1.5em; display: inline-block;
 
 }
 
@@ -257,6 +257,7 @@ $vdpColor: #f0a002 !default;
 
     animation: vdpSlideFromRight 0.5s;
 
+
 }
 
 .vdpPrevDirection {
@@ -273,13 +274,13 @@ $vdpColor: #f0a002 !default;
 
 .vdpCell {
 
-    padding: 0.5em 0;
+    padding: 0.2em 0;
 
 }
 
 .vdpHeadCell {
 
-    padding: 0.3em 0.5em 1.8em;
+    padding: 0.3em 0.5em;
 
 }
 
