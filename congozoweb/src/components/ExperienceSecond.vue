@@ -148,14 +148,18 @@
             submit() {
                 this.$validator.validate().then(valid => {
                     if (valid) {
-                        console.log('no error');
                         this.$emit('nextPage', 3);
                         this.$emit('experienceInfo', this.experience)
                     }
                     else {
-                        console.log('error');
+                        this.handleValidationErrorAdvanced();
                     }
                 });
+            },
+            handleValidationErrorAdvanced () {
+                const firstField = Object.keys(this.errors.collect())[0];
+
+                this.$refs[`${firstField}Input`].scrollIntoView();
             },
             searchPhoto() {
                 this.dataLoading = true;

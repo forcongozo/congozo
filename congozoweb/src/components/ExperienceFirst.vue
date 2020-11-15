@@ -14,12 +14,10 @@
                         name="name"
                         id="name"
                         placeholder="Enter title"
+                        ref="nameInput"
                         v-validate="'required'"
                 />
                 <span v-if="errors.has('name')" class="error-message">Experience title is empty</span>
-            </div>
-            <div class="modal-button">
-                <button class="btn-block" @click="openModal">Select date and time</button>
             </div>
             <div class="form-group custom">
                 <div class="location-container">
@@ -64,6 +62,7 @@
                                 name="location"
                                 id="location"
                                 placeholder="Type the address here"
+                                ref="locationInput"
                                 v-validate="'required'"
                         />
                         <Autocomplete :items="this.addressSearchResults" @selected="showSelectResult" v-if="experience.meetingLocation !== ''"/>
@@ -180,6 +179,9 @@
                     </div>
                 </div>
             </div>
+            <div class="modal-button">
+                <button class="btn-block" @click="openModal">Select date and time</button>
+            </div>
             <div class="continue-button">
                 <button class="congozo-btn-main btn-block" @click="submit">Save and Continue</button>
             </div>
@@ -231,14 +233,18 @@
             submit() {
                 this.$validator.validate().then(valid => {
                     if (valid) {
-                        console.log('no error');
                         this.$emit('nextPage', 2);
                         this.$emit('experienceInfo', this.experience);
                     }
                     else {
-                        console.log('error');
+                        this.handleValidationErrorAdvanced();
                     }
                 });
+            },
+            handleValidationErrorAdvanced () {
+                const firstField = Object.keys(this.errors.collect())[0];
+
+                this.$refs[`${firstField}Input`].scrollIntoView();
             },
             showSelectResult(result) {
                 this.addressSearchSelected = result;
