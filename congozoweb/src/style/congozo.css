@@ -22,13 +22,12 @@
   color: red; }
 
 .congozo-btn-main {
-  color: #F4F2F0;
+  font-size: 20px;
   background: #F0A002;
 }
 
 .congozo-btn-main:hover {
-  color: #F4F2F0;
-  background: #BD3A4F;
+  background: rgba(255, 175, 2, 0.7);
 }
 
 .form-control {

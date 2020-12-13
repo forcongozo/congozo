@@ -4,6 +4,12 @@ import Home from './views/Home.vue';
 import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import CreateExperience from "./views/CreateExperience";
+// Delete Later
+import ExperienceSecond from "./components/ExperienceSecond";
+import ExperienceThird from "./components/ExperienceThird";
+import ExperienceFourth from "./components/ExperienceFourth";
+import ExperienceFifth from "./components/ExperienceFifth";
+import ExperienceSixth from "./components/ExperienceSixth";
 
 Vue.use(Router);
 
@@ -30,6 +36,26 @@ export const router = new Router({
         {
             path: '/create',
             component: CreateExperience
+        },
+        {
+            path: '/create/2',
+            component: ExperienceSecond
+        },
+        {
+            path: '/create/3',
+            component: ExperienceThird
+        },
+        {
+            path: '/create/4',
+            component: ExperienceFourth
+        },
+        {
+            path: '/create/5',
+            component: ExperienceFifth
+        },
+        {
+            path: '/create/6',
+            component: ExperienceSixth
         },
         {
             path: '/profile',

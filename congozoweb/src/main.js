@@ -10,6 +10,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 import axios from 'axios'
 import VModal from 'vue-js-modal'
+import ProgressBar from 'vue-simple-progress'
 
 Vue.prototype.$http = axios;
 
@@ -27,6 +28,7 @@ import VueSlider from 'vue-slider-component'
 import 'vue-slider-component/theme/default.css'
 
 Vue.component('VueSlider', VueSlider);
+Vue.component('ProgressBar', ProgressBar);
 
 // ES Modules syntax
 import fetch from 'node-fetch';

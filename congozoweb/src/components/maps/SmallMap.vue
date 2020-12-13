@@ -105,24 +105,14 @@
 
     #map {
         position: absolute;
-        top: 1070px;
+        top: 560px;
         width: 80%;
-        height: 230px;
+        height: 250px;
         border: 1px solid #F0A002;
         border-radius: 10px;
 
         canvas {
             border-radius: 15px;
-        }
-    }
-
-    @media (min-width: 300px) {
-        top: 1100px;
-    }
-
-    @media(min-width: 320px) {
-        #map {
-            top: 1050px;
         }
     }
 
@@ -135,37 +125,26 @@
 
     @media(min-width: 375px) {
         #map {
-            top: 1020px;
-            height: 250px;
+            height: 280px;
         }
     }
 
     @media(min-width: 400px) {
         #map {
             width: 85%;
-            top: 1020px;
         }
     }
 
-    @media(min-width: 440px) {
-        #map {
-        }
-    }
-
-    @media(min-width: 450px) {
+    @media(min-width: 435px) {
         #map {
             width: 86%;
-        }
-    }
-
-    @media(min-width: 475px) {
-        #map {
+            top: 520px;
         }
     }
 
     @media(min-width: 480px) {
         #map {
-            top: 1020px;
+            top: 530px;
         }
     }
 

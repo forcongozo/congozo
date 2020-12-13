@@ -65,7 +65,6 @@
     }
 
     .autocomplete-result-items:hover {
-        background-color: rgba(0, 0, 0, 0.75);
         color: white;
     }
 </style>
